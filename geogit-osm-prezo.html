@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Using GeoGit with OpenStreetMap: Distributed Versioned Spatial Data Editing</title>
+
+		<meta name="description" content="Using GeoGit with OpenStreetMap: Distributed Versioned Spatial Data Editing">
+		<meta name="author" content="Jeffrey Johnson">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1>GeoGit + OSM</h1>
+					<h3>Using GeoGit with OpenStreetMap</h3>
+                    <h3>Distributed Versioned Spatial Data Editing</h3>
+					<p>
+						<small><a href="http://about.me/ortelius">Jeffrey Johnson</a> / <a href="http://twitter.com/ortelius">@ortelius</a></small>
+                    </p>
+                    <p>
+						<small><a href="http://volaya.es/index.htm">Victor Olaya</a> / <a href="http://twitter.com/volayaf">@volayaf</a></small>
+					</p>
+                    <p>
+                        <img src='http://osmplus.co/wp-content/uploads/2013/02/OpenGeoLogo-301x75_21.png'>
+                    </p>
+				</section>
+
+				<section>
+					<h2>Intro</h2>
+					<p>
+                        GeoGit is a distributed version control system for geographic information.  
+                        It is heavily inspired by the git distributed version control system [1] design and principles, 
+                        adapting them to the differences in the problem domain.  
+                    </p>
+                    <br/>
+                    <p>
+                        <small>[1] It has no formal relationship with the git project and is not built on top of git.</small>
+                    </p>
+
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					</aside>
+				</section>
+				<section>
+					<h2>Adapted to geospatial data</h2>
+					Commands are similar to Git ones, but with a different behaviour adapted to the particular data being versioned.
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit diff --nogeom
+6350a6... 6350a6... 37d757... e0c9ec...   M  parks/22
+the_geom: 0 point(s) deleted, 1 new point(s) added, 3 point(s) moved
+parktype: "Garden" -> "Park"
+
+6350a6... 6350a6... 887b4a... fad2fa...   M  parks/12
+the_geom: 0 point(s) deleted, 0 new point(s) added, 18 point(s) moved
+						</code></pre>
+				</section>
+
+				<section>
+					<h2>Branches</h2>
+					<ul>
+						<li>Branches are easy to create</li>
+						<li>Good for analyzing what-if scenarios</li>						
+						<li>They can later be merged or rebased</li>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit merge mybranch
+						</code></pre>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit rebase mybranch
+						</code></pre>						
+					</ul>
+				</section>
+
+				<section>
+					<h2>Conflicts</h2>					
+					<p>GeoGit detects conflicts when merging or rebasing.
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit merge mybranch
+CONFLICT: Merge conflict in parks/2
+CONFLICT: Merge conflict in parks/3
+CONFLICT: Merge conflict in parks/1
+Automatic merge failed. Fix conflicts and then commit the result.
+						</code></pre>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$geogit rebase branch1
+Error: could not apply 0b0e33b Changed units in area field 
+CONFLICT: conflict in parks/5
+
+When you have fixed this conflicts, run 'geogit rebase --continue' to continue rebasing.
+If you would prefer to skip this commit, instead run 'geogit rebase --skip.
+To check out the original branch and stop rebasing, run 'geogit rebase --abort'
+						</code></pre>
+					</p>
+					</ul>
+				</section>
+
+				<section>					
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit conflicts --diff
+---parks/parks.2---
+Ours
+number_fac: 0 -> 5
+
+Theirs
+number_fac: 0 -> 2
+the_geom: MultiPolygon [-122.99,42.42 -122.1,42.68 -122.52,42.96 -122.4,42.794 -122.76,42.82] (-122.2,42.57 -122.33,42.216 -122.26,42.12 -122.14,42.556) -122.17,42.71 -122.43,42.17 -122.54,42.426 -122.96,42.71 -122.84,42.54 -122.2,42.57				
+
+					</code></pre>
+				</section>
+
+
+				<section>
+					<h2>Conflict resolution</h2>					
+					<p>Limited to command-line interface. Not much interactivity.
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+							$ geogit checkout --theirs
+						</code></pre>						
+					</p>
+					<p>
+						A graphical three-way merge tool is on its way...
+					</p>
+					</ul>
+				</section>				
+
+				<section>
+					<h2>OSM functionality in GeoGit commands</h2>
+					<ul>
+						<li>Commands that replace common GeoGit commands with OSM-specific versions</li>
+						<li>Commands with additional extra functionality for working with OSM data</li>						
+					</ul>
+				</section>
+
+				<section>
+					<h2>OSM GeoGit commands</h2>
+					<ul>
+						<li><font face="courier">osm import</font></li>
+						<li><font face="courier">osm download</font></li>						
+						<li><font face="courier">osm map</font></li>
+						<li><font face="courier">osm export-shp / osm export-pg / osm export-sl</font></li>
+						<li><font face="courier">osm unmap</font></li>
+						<li><font face="courier">osm create-changeset</font></li>						
+					</ul>
+				</section>
+
+
+				<section>
+					<h2>OSM data in a GeoGit repository</h2>
+					<ul>
+						<li>All OSM data is stored in a fixed destination ('way' and 'node' trees) and using fixed schemas</li>
+						<li>OSM commands assume this data structuring</li>
+						<li>Aside from that, it can be stored anywhere in the repository, and handled as any other data, but OSM-specific functionality will not be available.</li>
+						<li>Data mappings allow to use OSM data in a GeoGit repository with a custom schema different to the default one</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Import data from OSM</h2>
+					<p> Osmosis-based data importing</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit osm import myosmdata.pbf
+					</code></pre>
+				</section>
+				<section>
+					<h2>Download using Overpass API</h2>
+					<p> Uses Overpass Query Language</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit osm download --filter myquery.txt
+					</code></pre>
+					<p> Quick BBox query</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit osm download --bbox 40 -2 40.02 -1.88
+					</code></pre>
+				</section>
+				<section>
+					<h2>Updating</h2>
+					<p> GeoGit logs usage of <font face="courier"> download </font> command so it can match a commit to the OSM changeset it represents.</p>
+					<p> This can be used to smartly update the current OSM data in the repository, considering new changes introduced in the local repository.</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit download --update
+					</code></pre>					
+				</section>
+				<section>
+					<h2>Updating(2)</h2>
+					<p> Similar to the GeoGit <font face="courier"> pull </font> command.</p>
+					<p> Update can be done merging or rebasing.
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit download --update --rebase
+					</code></pre>					
+					<p> If changes have been made to the repository and conflicts exist, the merge/rebase operation will detect and signal them, just like it does with non-OSM data during a pull operation.					
+				</section>
+				<section>
+					<h2>Limitations of update</h2>
+					<ul>
+						<li>The operation is not optimal, as it downloads the whole current snapshot, not just new entities.
+						<li><font face="courier">newer</font> clause in Overpass API does not report deletions</li>
+						<li>OSM API does not allow for flexible filtering when fetching history</li>
+						<li>We need the best of both worlds (history + filtering).
+					</ul>	
+					<aside class="notes">
+						The latest tracked version is used to set the common ancestor for the merge operation. It should fetch only diffs from that common ancestor to the current version in the OSM planet, but now it fetches everything, imports and creates a new commit in a separate branch that is later merged/rebased
+					</aside>				
+				</section>
+
+				<section>
+					<h2>Data mappings</h2>
+					<p>
+						Working with OSM data in a different schema (= easier and more practical)						
+					</p>
+					<p>
+						Makes it easier to edit versioned OSM data in an external app (GIS) and update the repository data
+					</p>
+				</section>
+
+				<section>
+					<h2>Data mappings</h2>
+					<ul>
+						<li>Similar to Imposm mappings</li>
+						<li>JSON definition</li>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+{"rules":
+  [
+    {
+      "name":"onewaystreets",        
+      "filter":{          
+        "oneway":["yes"]           
+      },        
+      "fields":{       
+        "lit":"STRING",              
+        "geom":"LINESTRING"          	
+      }
+    }
+  ]
+}
+						</code></pre>					
+					</ul>				
+				</section>
+
+
+
+				<section>
+					<h2>Data mappings. How to use them</h2>
+					<p>
+						Creating new trees in the repository with mapped OSM data
+					</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit osm map mymapping.json
+					</code></pre>					
+					<p>
+						Exporting mapped OSM data to Shapefile/PostGIS/Spatialite						
+					</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit osm export-shp mapped.shp --mapping mymapping.json
+					</code></pre>					
+				</section>
+
+				<section>
+					<h2>Data mappings. Unmapping</h2>
+					<p>
+						Reconstruct OSM object in the canonical trees from mapped data
+					</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit osm unmap mapped_tree
+					</code></pre>										
+				</section>
+
+
+				<section>
+					<h2>Workflow with mapping</h2>
+					<ul>
+						<li>Download/update OSM data</li>
+						<li>Export a mapped version of the data to edit.</li>
+						<li>Edit in your favorite software.</li>
+						<li>Import changed data into GeoGit repository.</li>
+						<li>Unmap (this will update the canonical OSM data in the repo)</li>
+						<li>Commit to create a new snapshot.</li>
+						<li>Update to merge changes from OSM planet (if any).</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Changesets</h2>
+					<p>
+						Changesets can be created with the <font face="courier">create-changeset</font> command.
+					</p>
+					<p>
+						Similar to the <font face="courier">diff</font> command, but works only on OSM data in the repository.
+					</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit creat-changeset HEAD HEAD~3 -f mychangeset.xml
+					</code></pre>
+				</section>
+
+
+				<section>
+					<h2>Further improvements</h2>
+					<ul>
+						<li>Better unmapping for ways.</li>
+						<li>Handle relations</li>
+						<li>Contribute to OSM planet from GeoGit (create a <font face="courier">push</font> command)</li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h2>Beyond the CLI</h2>
+					<ul>
+						<li>GeoServer integration.</li>
+						<li>QGIS plugin</li>						
+					</ul>
+				</section>
+				<section>				
+					<p>
+	                	<img src='img/qgis_explorer.jpg'>
+	                </p>
+				</section>                
+				<section>				
+					<p>
+	                	<img src='img/qgis_explorer2.jpg'>
+	                </p>
+				</section>                				    
+				<section>                    
+					<p>
+	                	<img src='img/qgis_diff.jpg'>
+	                </p>
+				</section> 
+				<section>                    
+					<p>
+	                	<img src='img/feature_diff.jpg'>
+	                </p>
+				</section>                    
+               
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
