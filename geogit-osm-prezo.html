@@ -404,21 +404,23 @@ unmap      Updates the raw OSM data, unmapping the mapped OSM data in a given tr
 					    </code></pre>
 				    </section>
 				    <section>
-                        <p>inspect osm repo : nodes</p>
+					    <p> inspect osm repo : nodes</p>
 					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-$ geogit show WORK_HEAD:node/2222455894
+$ geogit show HEAD:node
+TREE ID:  75ca7b9ecf385ad01570a673405e9e5de46f5ccf
+SIZE:  2691442
+NUMBER Of SUBTREES:  0
+DEFAULT FEATURE TYPE ID:  f63c0dd9d76623e2af985553c94d5219a9c0e2b7
 
-ID:  d428a46716c4b84f5dc43e10d38b295d77069f32
-
-ATTRIBUTES  
-----------  
-changeset: 15491936
-location: POINT (44.998520500000005 -24.221625600000003)
-tags: Optional.absent()
-timestamp: 1364220282000
-user: joedalton85:420883
-version: 1
-visible: true
+DEFAULT FEATURE TYPE ATTRIBUTES
+--------------------------------
+changeset: <LONG>
+location: <POINT>
+tags: <STRING>
+timestamp: <LONG>
+user: <STRING>
+version: <INTEGER>
+visible: <BOOLEAN>
 					    </code></pre>
 				    </section>
 				    <section>
@@ -442,6 +444,24 @@ version: <INTEGER>
 visible: <BOOLEAN>
 way: <LINESTRING>
 
+					    </code></pre>
+				    </section>
+				    <section>
+                        <p>inspect single node</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit show WORK_HEAD:node/2222455894
+
+ID:  d428a46716c4b84f5dc43e10d38b295d77069f32
+
+ATTRIBUTES  
+----------  
+changeset: 15491936
+location: POINT (44.998520500000005 -24.221625600000003)
+tags: Optional.absent()
+timestamp: 1364220282000
+user: joedalton85:420883
+version: 1
+visible: true
 					    </code></pre>
 				    </section>
 				    <section>
