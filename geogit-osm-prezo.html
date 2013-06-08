@@ -52,24 +52,35 @@
                     </p>
 				</section>
 
-				<section>
-					<h2>Intro</h2>
-					<p>
-                        GeoGit is a distributed version control system for geographic information.  
-                        It is heavily inspired by the git distributed version control system [1] design and principles, 
-                        adapting them to the differences in the problem domain.  
-                    </p>
-                    <br/>
-                    <p>
-                        <small>[1] It has no formal relationship with the git project and is not built on top of git.</small>
-                    </p>
+                <section>
+				    <section>
+					    <h2>Intro</h2>
+					    <p>
+                            GeoGit is a distributed version control system for geographic information.  
+                            It is heavily inspired by the git distributed version control system design and principles[1], 
+                            adapting them to the differences in the problem domain.  
+                        </p>
+                        <br/>
+                        <p>
+                            <small>[1] It has no formal relationship with the git project and is not built on top of git.</small>
+                        </p>
+				    </section>
+                    <section>
+                        <p>
+“Every (Geo)Git clone is a full-fledged repository with complete history and full revision tracking capabilities, not dependent on network access or a central server. Branching and merging are fast and easy to do.”
 
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
+—http://git-scm.com/
+                        </p>
+                    </section>
+                    <section>
+                        <p>Current development of geotools based java library as part of ROGUE JCTD</p>
+                        <p><a href='https://github.com/opengeo/geogit'>github.com/opengeo/geogit</a></p>
+                        <p><small>(feature complete as of version 0.3 June 2013)</small></p>
+                    </section>
+                </section>
+                <section>
 				<section>
-					<h2>Adapted to geospatial data</h2>
+					<h2>DVCS Adapted to geospatial data</h2>
 					Commands are similar to Git ones, but with a different behaviour adapted to the particular data being versioned.
 						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 $ geogit diff --nogeom
@@ -81,7 +92,61 @@ parktype: "Garden" -> "Park"
 the_geom: 0 point(s) deleted, 0 new point(s) added, 18 point(s) moved
 						</code></pre>
 				</section>
+				<section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit help
+usage: geogit command [args]
 
+The most commonly used geogit commands are:
+--help          Print this help message, or provide a command name to get help for
+add             Add features to the staging area
+apply           Apply a patch to the current working tree
+blame           Shows information about authors of modifications for a single feature
+branch          List, create, or delete branches
+checkout        Checkout a branch or paths to the working tree
+cherry-pick     Apply the changes introduced by existing commits
+clean           Deletes untracked features from working tree
+clone           Clone a repository into a new directory
+commit          Record staged changes to the repository
+config          Get and set repository or global options
+conflicts       Shows existing conflicts
+diff            Show changes between commits, commit and working tree, etc
+                </code></pre>
+                </section>
+				<section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+
+fetch           Download objects and refs from another repository
+format-patch    Creates a patch with a set of changes
+help            Print this help message, or provide a command name to get help for
+init            Create an empty geogit repository or reinitialize an existing one
+log             Show commit logs
+ls              Obtain information about features in the index and the working tree.
+merge           Merge two or more histories into one
+osm             GeoGit/OpenStreetMap integration utilities
+pg              GeoGit/PostGIS integration utilities
+pull            Fetch from and merge with another repository or a local branch
+push            Update remote refs along with associated objects
+rebase          Forward-port local commits to the updated upstream head
+remote          remote utilities
+reset           Reset current HEAD to the specified state, optionally modifying index and working tree to match
+revert          Revert commits to undo the changes made
+rm              Remove features or trees
+                </code></pre>
+                </section>
+				<section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+show            Displays information about a commit, feature or feature type
+shp             GeoGit/Shapefile integration utilities
+sl              GeoGit/SpatiaLite integration utilities
+squash          Squash commits
+status          Show the working tree status
+tag             creates/deletes tags
+						</code></pre>
+				</section>
+                </section>
+
+                <section>
 				<section>
 					<h2>Branches</h2>
 					<ul>
@@ -96,19 +161,27 @@ $ geogit rebase mybranch
 						</code></pre>						
 					</ul>
 				</section>
-
+                <section>
+                    <h2>OSM Pull Requests?</h2>
+                </section>
+                </section>
+                <section>
 				<section>
 					<h2>Conflicts</h2>					
 					<p>GeoGit detects conflicts when merging or rebasing.
 						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 $ geogit merge mybranch
+
 CONFLICT: Merge conflict in parks/2
 CONFLICT: Merge conflict in parks/3
 CONFLICT: Merge conflict in parks/1
 Automatic merge failed. Fix conflicts and then commit the result.
 						</code></pre>
+                    </section>
+                    <section>
 						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 $geogit rebase branch1
+
 Error: could not apply 0b0e33b Changed units in area field 
 CONFLICT: conflict in parks/5
 
@@ -119,7 +192,7 @@ To check out the original branch and stop rebasing, run 'geogit rebase --abort'
 					</p>
 					</ul>
 				</section>
-
+                    
 				<section>					
 					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 $ geogit conflicts --diff
@@ -133,11 +206,11 @@ the_geom: MultiPolygon [-122.99,42.42 -122.1,42.68 -122.52,42.96 -122.4,42.794 -
 
 					</code></pre>
 				</section>
-
+                </section>
 
 				<section>
 					<h2>Conflict resolution</h2>					
-					<p>Limited to command-line interface. Not much interactivity.
+					<p>Currently Limited to command-line interface. Not much interactivity.
 						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 							$ geogit checkout --theirs
 						</code></pre>						
@@ -147,7 +220,6 @@ the_geom: MultiPolygon [-122.99,42.42 -122.1,42.68 -122.52,42.96 -122.4,42.794 -
 					</p>
 					</ul>
 				</section>				
-
 				<section>
 					<h2>OSM functionality in GeoGit commands</h2>
 					<ul>
@@ -156,66 +228,373 @@ the_geom: MultiPolygon [-122.99,42.42 -122.1,42.68 -122.52,42.96 -122.4,42.794 -
 					</ul>
 				</section>
 
+                <section>
 				<section>
 					<h2>OSM GeoGit commands</h2>
 					<ul>
+						<li><font face="courier">osm import-history</font></li>
 						<li><font face="courier">osm import</font></li>
 						<li><font face="courier">osm download</font></li>						
 						<li><font face="courier">osm map</font></li>
-						<li><font face="courier">osm export-shp / osm export-pg / osm export-sl</font></li>
+						<li><font face="courier">osm export shp pg sl</font></li>
 						<li><font face="courier">osm unmap</font></li>
 						<li><font face="courier">osm create-changeset</font></li>						
 					</ul>
 				</section>
+                <section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+    import-history      Import OpenStreetmap history
+      Usage: import-history [options] <OSM api URL. eg: http://api.openstreetmap.org/api/0.6>      
+        Options:
+              --dev          Use the development test api endpoint
+                             <http://api06.dev.openstreetmap.org/api/0.6>. NOTE: this is not the real osm history, but just
+                             for testing purposes.
+                             Default: false
+              --from         initial changeset id.
+                             Default: 1
+          --keep-files, -k   If specified, downloaded changeset files are kept
+                             in the --saveto folder
+                             Default: false
+          --numthreads, -t   Number of threads to use to fetch changesets. Must
+                             be between 1 and 6
+                             Default: 4
+              --resume       Resume import from last imported changeset on the
+                             current branch.
+                             Default: false
+              --saveto       Directory where to save the changesets. Defaults to
+                             $TMP/changesets.osm
+              --to           final changeset id.
+                             Default: 1000
+                        </code></pre>
+                        </section>
+                        <section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 
+    import      Import OpenStreetMap data from a file
+      Usage: import [options] OSM file path      
+        Options:
+              --add       Do not remove previous data before importing
+                          Default: false
+              --mapping   The file that contains the data mapping to use
+              --no-raw    Do not import raw data when using a mapping
+                          Default: false
+                        </code></pre>
+                        </section>
+                        <section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 
+    download      Download OpenStreetMap data
+      Usage: download [options] [OSM Overpass api URL. eg: http://api.openstreetmap.org/api]      
+        Options:
+          --bbox, -b         The bounding box to use as filter (S W N E).
+          --filter, -f       The filter file to use.
+          --keep-files, -k   If specified, downloaded files are kept in the
+                             --saveto folder
+                             Default: false
+              --mapping      The file that contains the data mapping to use
+              --rebase       Use rebase instead of merge when updating
+                             Default: false
+              --saveto       Directory where to save the dowloaded OSM data
+                             files.
+          --update, -u       Update the OSM data currently in the geogit
+                             repository
+                             Default: false
+                        </code></pre>
+                        </section>
+                        <section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+map      Create new data in the repository, applying a mapping to the current OSM data
+  Usage: map [options] file
+
+unmap      Updates the raw OSM data, unmapping the mapped OSM data in a given tree in the working tree
+  Usage: unmap [options] path
+                        </code></pre>
+                        </section>
+                        <section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+
+    create-changeset      Save diff between versions as OSM changeset
+      Usage: create-changeset [options] [{commit} [{commit}]]      
+        Options:
+          -f   File to save changesets to
+                        </code></pre>
+                        </section>
+
+                        <section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+    export      Export to OSM format
+      Usage: export [options] [file] [commitish]      
+        Options:
+          --bbox, -b        The bounding box to use as filter (S W N E).
+          --overwrite, -o   Overwrite output file
+                            Default: false
+                        </code></pre>
+                        </section>
+                        <section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+
+    export-shp      Export OSM data to shapefile, using a data mapping
+      Usage: export-shp [options] [shapefile]     
+        Options:
+              --mapping     The file that contains the data mapping to use
+          --overwrite, -o   Overwrite output file
+                            Default: false
+                        </code></pre>
+                        </section>
+
+                        <section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+
+    export-pg      Export OSM data to a PostGIS database, using a data mapping
+      Usage: export-pg [options]      
+        Options:
+              --database    The databse to connect to.  Default: database
+                            Default: database
+              --host        Machine name or IP address to connect to. Default:
+                            localhost
+                            Default: localhost
+              --mapping     The file that contains the data mapping to use
+          --overwrite, -o   Overwrite output tables
+                            Default: false
+              --password    Password.  Default: <no password>
+              --port        Port number to connect to.  Default: 5432
+                            Default: 5432
+              --schema      The database schema to access.  Default: public
+                            Default: public
+              --user        User name.  Default: postgres
+                            Default: postgres
+                        </code></pre>
+                        </section><section>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+
+    export-sl      Export OSM data to a Spatialite database, using a data mapping
+      Usage: export-sl [options]      
+        Options:
+              --database    The databse to connect to.  Default: database.sqlite
+                            Default: database.sqlite
+              --mapping     The file that contains the data mapping to use
+          --overwrite, -o   Overwrite output tables
+                            Default: false
+              --user        User name.  Default: user
+                            Default: user
+                        </code></pre>
+                </section
+                </section>
+
+                </section>
 				<section>
 					<h2>OSM data in a GeoGit repository</h2>
 					<ul>
 						<li>All OSM data is stored in a fixed destination ('way' and 'node' trees) and using fixed schemas</li>
 						<li>OSM commands assume this data structuring</li>
-						<li>Aside from that, it can be stored anywhere in the repository, and handled as any other data, but OSM-specific functionality will not be available.</li>
-						<li>Data mappings allow to use OSM data in a GeoGit repository with a custom schema different to the default one</li>
+						<li>Can also be stored anywhere in the repository, and handled as any other data, but OSM-specific functionality will not be available.</li>
+						<li>Data mappings enable the use OSM data in a GeoGit repository with a custom schema different to the default one</li>
 					</ul>
 				</section>
 
-				<section>
-					<h2>Import data from OSM</h2>
-					<p> Osmosis-based data importing</p>
-					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+                <section>
+				    <section>
+					    <h2>Import data from OSM</h2>
+					    <p> Osmosis-based data importing</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 						$ geogit osm import myosmdata.pbf
-					</code></pre>
-				</section>
+					    </code></pre>
+				    </section>
+				    <section>
+                        <p>inspect osm repo : ways</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit show WORK_HEAD:way
+
+TREE ID:  1c59a2093a60724251de30db898bbf19530a1d86
+SIZE:  136141
+NUMBER Of SUBTREES:  0
+DEFAULT FEATURE TYPE ID:  03585dd9f1ccd1555372782e6f18bf44ec5d9693
+
+DEFAULT FEATURE TYPE ATTRIBUTES
+--------------------------------
+changeset: <LONG>
+nodes: <STRING>
+tags: <STRING>
+timestamp: <LONG>
+user: <STRING>
+version: <INTEGER>
+visible: <BOOLEAN>
+way: <LINESTRING>
+
+					    </code></pre>
+				    </section>
+				    <section>
+                        <p>inspect osm repo : nodes</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit show WORK_HEAD:node/2222455894
+
+ID:  d428a46716c4b84f5dc43e10d38b295d77069f32
+
+ATTRIBUTES  
+----------  
+changeset: 15491936
+location: POINT (44.998520500000005 -24.221625600000003)
+tags: Optional.absent()
+timestamp: 1364220282000
+user: joedalton85:420883
+version: 1
+visible: true
+					    </code></pre>
+				    </section>
+				    <section>
+                        <p>inspect single way</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit show WORK_HEAD:way/209210368
+
+ID:  c88760783653d1a1f5f8faf0e48dbcd756783a52
+
+ATTRIBUTES  
+----------  
+changeset: 15316528
+nodes: 2194411060;2194411094;2194411102;2194411071;2194411060
+tags: building:yes|source:Bing
+timestamp: 1362929895000
+user: AndrewBuck:214969
+version: 1
+visible: true
+way: LINESTRING (43.6597741 -23.3428405, 43.6597865 -23.3429049, 43.659688100000004 -23.342920900000003, 43.6596757 -23.3428565, 43.6597741 -23.3428405)
+					    </code></pre>
+				    </section>
+                </section>
 				<section>
+                    <section>
 					<h2>Download using Overpass API</h2>
-					<p> Uses Overpass Query Language</p>
-					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-						$ geogit osm download --filter myquery.txt
-					</code></pre>
-					<p> Quick BBox query</p>
+					<p>Simple BBox query</p>
 					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 						$ geogit osm download --bbox 40 -2 40.02 -1.88
 					</code></pre>
+					<p>Overpass Query Language</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						$ geogit osm download --filter myquery.txt
+					</code></pre>
+                    </section>
+                    <section>
+                        <p>overpass api query</p>
+					        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ cat filter.oql 
+(
+ way 
+    (33.1568,-117.418,33.227,-117.297);
+  >;
+);
+out meta;
+					        </code></pre>
+                    </section>
+                    <section>
+                        <p>download and import using a filter query</p>
+					        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit osm download --filter filter.oql 
+
+Downloading data...
+6,240,137
+Importing into GeoGit repo...
+28,264 Counting unstaged features...28265
+Staging changes...
+100%
+28265 features staged for commit
+0 features not staged for commit
+100%[d7c35ac2fb1024dd6b9d55a46f0b119ae552f41d] Updated OSM data
+Committed, counting objects...28265 features added, 0 changed, 0 deleted.
+					        </code></pre>
+                    </section>
+                    <section>
+                        <p>inspect the log</p>
+					        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit log
+
+Commit:  684d104702b53f1ad284674f9bd20f5620ac0ed8
+Author:  Jeffrey Johnson jjohnson@opengeo.org
+Date:    (1 minutes ago) 2013-06-07 17:15:53 -0600
+Subject: Updated OSM data
+                    </code></pre></section>
+                    
+				</section>
+				<section>
+                    <section>
+					    <h2>Updating</h2>
+					    <p> GeoGit logs usage of <font face="courier"> download </font> command so it can match a commit to the OSM changeset it represents.</p>
+					    <p> This can be used to intelligently update the current OSM data in the repository, considering new changes introduced in the local repository.</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+						    $ geogit osm download --update
+					    </code></pre>
+                    </section>
+                    <section>
+                        <p>pull new changes from osm planet</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$geogit osm download --update
+
+Downloading data...
+6,241,044
+Importing into GeoGit repo...
+28,269 Counting unstaged features...5
+Staging changes...
+100%
+5 features staged for commit
+0 features not staged for commit
+100%[feb760cf5066739fbcc1f0dd1908f66d6f24c21f] Updated OSM data
+Committed, counting objects...5 features added, 0 changed, 0 deleted.
+200%[feb760cf5066739fbcc1f0dd1908f66d6f24c21f] Updated OSM data
+Committed, counting objects...5 features added, 0 changed, 0 deleted.
+					    </code></pre>
+                    </section>
+                    <section>
+                        <p>inspect the log</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit log
+
+Commit:  feb760cf5066739fbcc1f0dd1908f66d6f24c21f
+Author:  Jeffrey Johnson jjohnson@opengeo.org
+Date:    (30 seconds ago) 2013-06-07 16:08:05 -0600
+Subject: Updated OSM data
+
+Commit:  d7c35ac2fb1024dd6b9d55a46f0b119ae552f41d
+Author:  Jeffrey Johnson jjohnson@opengeo.org
+Date:    (14 minutes ago) 2013-06-07 15:53:36 -0600
+Subject: Updated OSM data
+					    </code></pre>
+                    </section>
+                    <section>
+                        <p>inspect a diff</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$geogit diff HEAD~1 HEAD
+
+000000... 03585d... 000000... 9fd888...   A  way/224798080
+changeset    16463100
+nodes    2336392952;2336392956;2336392959;2336392962;2336392952
+tags    building:yes
+timestamp    1370642619000
+user    ortelius:206
+version    1
+visible    true
+way    LINESTRING (-117.3754297 33.1935993, -117.375359 33.1935122, -117.3754596 33.193455, -117.3755302 33.1935421, -117.3754297 33.1935993)
+
+000000... f63c0d... 000000... c70b64...   A  node/2336392952
+changeset    16463100
+location    POINT (-117.3754297 33.1935993)
+tags    
+timestamp    1370642619000
+user    ortelius:206
+version    1
+visible    true
+					    </code></pre>
+                    </section>
 				</section>
 				<section>
 					<h2>Updating</h2>
-					<p> GeoGit logs usage of <font face="courier"> download </font> command so it can match a commit to the OSM changeset it represents.</p>
-					<p> This can be used to smartly update the current OSM data in the repository, considering new changes introduced in the local repository.</p>
-					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-						$ geogit download --update
-					</code></pre>					
-				</section>
-				<section>
-					<h2>Updating(2)</h2>
-					<p> Similar to the GeoGit <font face="courier"> pull </font> command.</p>
+					<p> Similar to the GeoGit <font face="courier">pull</font> command.</p>
 					<p> Update can be done merging or rebasing.
 					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-						$ geogit download --update --rebase
+						$ geogit osm download --update --rebase
 					</code></pre>					
 					<p> If changes have been made to the repository and conflicts exist, the merge/rebase operation will detect and signal them, just like it does with non-OSM data during a pull operation.					
 				</section>
 				<section>
-					<h2>Limitations of update</h2>
+					<h2>Current Limitations with update</h2>
 					<ul>
 						<li>The operation is not optimal, as it downloads the whole current snapshot, not just new entities.
 						<li><font face="courier">newer</font> clause in Overpass API does not report deletions</li>
@@ -230,7 +609,7 @@ the_geom: MultiPolygon [-122.99,42.42 -122.1,42.68 -122.52,42.96 -122.4,42.794 -
 				<section>
 					<h2>Data mappings</h2>
 					<p>
-						Working with OSM data in a different schema (= easier and more practical)						
+						Working with OSM data in a specific schema is easier and more practical.						
 					</p>
 					<p>
 						Makes it easier to edit versioned OSM data in an external app (GIS) and update the repository data
@@ -295,7 +674,7 @@ the_geom: MultiPolygon [-122.99,42.42 -122.1,42.68 -122.52,42.96 -122.4,42.794 -
 					<ul>
 						<li>Download/update OSM data</li>
 						<li>Export a mapped version of the data to edit.</li>
-						<li>Edit in your favorite software.</li>
+						<li>Edit in your favorite GIS software.</li>
 						<li>Import changed data into GeoGit repository.</li>
 						<li>Unmap (this will update the canonical OSM data in the repo)</li>
 						<li>Commit to create a new snapshot.</li>
@@ -303,6 +682,7 @@ the_geom: MultiPolygon [-122.99,42.42 -122.1,42.68 -122.52,42.96 -122.4,42.794 -
 					</ul>
 				</section>
 
+                <section>
 				<section>
 					<h2>Changesets</h2>
 					<p>
@@ -312,28 +692,55 @@ the_geom: MultiPolygon [-122.99,42.42 -122.1,42.68 -122.52,42.96 -122.4,42.794 -
 						Similar to the <font face="courier">diff</font> command, but works only on OSM data in the repository.
 					</p>
 					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-						$ geogit creat-changeset HEAD HEAD~3 -f mychangeset.xml
+						$ geogit create-changeset HEAD HEAD~1 -f mychangeset.xml
 					</code></pre>
 				</section>
-
+                <section>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<?xml version='1.0' encoding='UTF-8'?>
+<osmChange version="0.6" generator="Osmosis 0.42-6-gf39a160-dirty">
+  <create>
+    <node id="2336553145" version="1" timestamp="2013-06-07T23:17:24Z" uid="206" user="ortelius" changeset="16463612" lat="33.1933188" lon="-117.3753848"/>
+    <node id="2336553148" version="1" timestamp="2013-06-07T23:17:25Z" uid="206" user="ortelius" changeset="16463612" lat="33.1932723" lon="-117.3754707"/>
+    <node id="2336553146" version="1" timestamp="2013-06-07T23:17:25Z" uid="206" user="ortelius" changeset="16463612" lat="33.193219" lon="-117.3753077"/>
+    <node id="2336553147" version="1" timestamp="2013-06-07T23:17:25Z" uid="206" user="ortelius" changeset="16463612" lat="33.1931725" lon="-117.3753936"/>
+    <way id="224805351" version="1" timestamp="2013-06-07T23:17:25Z" uid="206" user="ortelius" changeset="16463612">
+      <nd ref="2336553145"/>
+      <nd ref="2336553146"/>
+      <nd ref="2336553147"/>
+      <nd ref="2336553148"/>
+      <nd ref="2336553145"/>
+      <tag k="building" v="yes"/>
+    </way>
+  </create>
+</osmChange>
+					</code></pre>
+                </section>
+                </section>
 
 				<section>
 					<h2>Further improvements</h2>
 					<ul>
 						<li>Better unmapping for ways.</li>
 						<li>Handle relations</li>
-						<li>Contribute to OSM planet from GeoGit (create a <font face="courier">push</font> command)</li>
+						<li>Contribute to OSM planet from GeoGit (create an <font face="courier">osm push</font> command)</li>
 					</ul>
 				</section>
-
 
 				<section>
 					<h2>Beyond the CLI</h2>
 					<ul>
-						<li>GeoServer integration.</li>
 						<li>QGIS plugin</li>						
+						<li>GeoServer integration</li>
+						<li>APIs</li>
 					</ul>
 				</section>
+                <section>
+                <section>
+                    <h2>QGIS Plugin</h2>
+                    <p>Desktop GeoGit based GIS</p>
+                    <p><small>Working towards SourceTree like functionality</small></p>
+                </section>
 				<section>				
 					<p>
 	                	<img src='img/qgis_explorer.jpg'>
@@ -353,10 +760,203 @@ the_geom: MultiPolygon [-122.99,42.42 -122.1,42.68 -122.52,42.96 -122.4,42.794 -
 					<p>
 	                	<img src='img/feature_diff.jpg'>
 	                </p>
-				</section>                    
-               
-			</div>
+				</section>
+				<section>                    
+					<p>
+	                	<img src='img/source-tree.png'>
+	                </p>
+				</section>
+                </section>                    
+                <section>
+                <section>
+                    <h2>GeoServer Integration</h2>
+                    <ul>
+                    <li>GeoGit GeoTools Store</li>
+                    <li>Provides OGC Services (WMS/WFS-T/TMS)</li>
+                    <li>Provides GeoGit Remote API (clone, push, pull)</li>
+                    <li>Provides Basic HTTP Client API</li>
+                    </ul>
+                </section>
+				<section>				
+					<p>
+	                	<img src='img/geoserver-geogit-store.png'>
+	                </p>
+				</section>                
+				<section>				
+					<p>
+	                	<img src='img/geoserver-geoext.png'>
+	                </p>
+				</section>                
+				<section>				
+					<p>
+	                	<img src='img/geoserver-geogit-diff.png'>
+	                </p>
+				</section>
+                </section>
+                <section>
+                <section>
+                    <h2>APIs</h2>
+                    <ul>
+                    <li>Remote API (clone, push, pull)</li>
+                    <li>HTTP Client API <small>(lets not call it REST for now)</small></li>
+                    </ul>
+                </section>
+                <section>
+                <h2>Remote API<h2>
+                </section>
+                <section>
+                    <p>clone</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit clone http://localhost:8080/geoserver/geogit/geonode:geogit-repo geogit-repo-clone
 
+Cloning into 'geogit-repo-clone'...
+100%
+Done.
+
+$ geogit ls-tree
+
+san_andres_y_providencia_administrative
+san_andres_y_providencia_coastline
+urbanareas1_1
+san_andres_y_providencia_administrative0
+Route
+                </code></pre>
+				</section>
+                <section>
+                    <p>cloned repo</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit show WORK_HEAD:Route
+
+TREE ID:  ccc63d492d3839ad59ffff8429155dab03f980ff
+SIZE:  68
+NUMBER Of SUBTREES:  0
+DEFAULT FEATURE TYPE ID:  d376bd1a9aeb74f6f09629f0428cb1fa2d8cda4a
+
+DEFAULT FEATURE TYPE ATTRIBUTES
+--------------------------------
+COMMENT: <STRING>
+Company: <STRING>
+DATE: <DATETIME>
+MILEAGE: <STRING>
+OBJECTID: <INTEGER>
+OID_: <INTEGER>
+ROUTE_ID_1: <DOUBLE>
+Route_ID: <INTEGER>
+Shape_Leng: <DOUBLE>
+the_geom: <MULTILINESTRING>
+					</code></pre>										
+                </section>
+                <section>
+                    <p>pull</p>
+                </section>
+                <section>
+                    <p>push</p>
+                </section>
+                <section>
+                <h2>HTTP Client API</h2>
+                </section>
+                <section>
+                    <p>ls-tree endpoint</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+{
+    "response": {
+        "success": true,
+        "node": [
+            {
+                "path": "way"
+            },
+            {
+                "path": "node"
+            }
+        ]
+    }
+}
+</code></pre></section>
+                <section>
+                    <p>log endpoint</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+{
+    "response": {
+        "success": true,
+        "commit": [
+            {
+                "id": "d9e186c375f6855a5c11502f8c959a9eb8657518",
+                "tree": "41ec9b5c6b271526277ba8c8e108adef4760e19f",
+                "parents": {
+                    "id": "684d104702b53f1ad284674f9bd20f5620ac0ed8"
+                },
+                "author": {
+                    "name": "JeffreyJohnson",
+                    "email": "jjohnson@opengeo.org",
+                    "timestamp": 1370647264791,
+                    "timeZoneOffset": -25200000
+                },
+                "committer": {
+                    "name": "JeffreyJohnson",
+                    "email": "jjohnson@opengeo.org",
+                    "timestamp": 1370647264791,
+                    "timeZoneOffset": -25200000
+                },
+                "message": "UpdatedOSMdata"
+            },
+                    </pre></code> 
+                </section>
+
+                </section>
+                <section>
+                    <h2>Whats next?</h2>
+                </section>
+				<section>
+					<h2>OSM Ideas</h2>
+					<ul>
+						<li>Osmosis plugin</li>
+						<li>JOSM plugin</li>
+						<li>iDeditor Extension</li>
+						<li>Full history import</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Other Ideas</h2>
+					<ul>
+						<li>libgeogit & ogr driver</li>
+						<li>Conflation tools</li>
+						<li>Scripting libs (pre and post commit hooks)</li>
+						<li>MapReduce & Analytics</li>
+						<li>'Other' Desktop Integration</li>
+						<li>Automated Repo Sync</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Get Involved!</h2>
+                    <p>Pull requests welcome!</p>
+						<p><a href='https://github.com/opengeo/geogit'>github.com/opengeo/geogit</a></p>
+                        <p><a href='https://groups.google.com/a/opengeo.org/forum/?fromgroups#!forum/geogit'>Mailing List</a></p>
+						<p><a href='https://github.com/opengeo/GeoGit/issues'>Issue Tracker</a></p>
+                    <br/>
+                    <p>Further Reading</p>
+					<ul>
+						<li><a href='http://geogit.org/'>geogit.org</a></li>
+						<li><a href='http://blog.opengeo.org/tag/geogit/'>blog.opengeo.org/tag/geogit/</a></li>
+						<li><a href='https://sites.google.com/a/opengeo.org/geogit-project-guide/'>sites.google.com/a/opengeo.org/geogit-project-guide/</a></li>
+                        <li><a href='https://github.com/opengeo/GeoGit/tree/master/doc/manual/source'>github.com/opengeo/GeoGit/tree/master/doc/manual/source</a></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Thanks!</h2>
+                    <p><img src='https://si0.twimg.com/profile_images/3553082664/f733cdef03da12f093a9fd6e72fd7cf0_bigger.jpeg'></p>
+					<p>
+						<small><a href="http://about.me/ortelius">Jeffrey Johnson</a> / <a href="http://twitter.com/ortelius">@ortelius</a></small>
+                    </p>
+                    <p><img src='http://volaya.es/foto_girona.jpg' width='100' height='100'>
+                    <p>
+						<small><a href="http://volaya.es/index.htm">Victor Olaya</a> / <a href="http://twitter.com/volayaf">@volayaf</a></small>
+					</p>
+                    <p>
+                        <img src='http://osmplus.co/wp-content/uploads/2013/02/OpenGeoLogo-301x75_21.png'>
+                    </p>
+				</section>
+                </section>
+			</div>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
