@@ -401,6 +401,24 @@ unmap      Updates the raw OSM data, unmapping the mapped OSM data in a given tr
 					    </code></pre>
 				    </section>
 				    <section>
+                        <p>inspect osm repo : nodes</p>
+					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit show WORK_HEAD:node/2222455894
+
+ID:  d428a46716c4b84f5dc43e10d38b295d77069f32
+
+ATTRIBUTES  
+----------  
+changeset: 15491936
+location: POINT (44.998520500000005 -24.221625600000003)
+tags: Optional.absent()
+timestamp: 1364220282000
+user: joedalton85:420883
+version: 1
+visible: true
+					    </code></pre>
+				    </section>
+				    <section>
                         <p>inspect osm repo : ways</p>
 					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 $ geogit show WORK_HEAD:way
@@ -421,24 +439,6 @@ version: <INTEGER>
 visible: <BOOLEAN>
 way: <LINESTRING>
 
-					    </code></pre>
-				    </section>
-				    <section>
-                        <p>inspect osm repo : nodes</p>
-					    <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-$ geogit show WORK_HEAD:node/2222455894
-
-ID:  d428a46716c4b84f5dc43e10d38b295d77069f32
-
-ATTRIBUTES  
-----------  
-changeset: 15491936
-location: POINT (44.998520500000005 -24.221625600000003)
-tags: Optional.absent()
-timestamp: 1364220282000
-user: joedalton85:420883
-version: 1
-visible: true
 					    </code></pre>
 				    </section>
 				    <section>
@@ -696,6 +696,7 @@ visible    true
 					</code></pre>
 				</section>
                 <section>
+                    <p>inspect changeset</p>
 					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <?xml version='1.0' encoding='UTF-8'?>
 <osmChange version="0.6" generator="Osmosis 0.42-6-gf39a160-dirty">
@@ -823,7 +824,20 @@ Route
                 </code></pre>
 				</section>
                 <section>
-                    <p>cloned repo</p>
+                    <p>inspect cloned repo</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit ls-tree
+san_andres_y_providencia_administrative
+san_andres_y_providencia_coastline
+urbanareas1_1
+san_andres_y_providencia_administrative0
+Route
+                </code></pre>
+				</section>
+
+
+                <section>
+                    <p>inspect a specific tree</p>
 					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 $ geogit show WORK_HEAD:Route
 
@@ -834,20 +848,52 @@ DEFAULT FEATURE TYPE ID:  d376bd1a9aeb74f6f09629f0428cb1fa2d8cda4a
 
 DEFAULT FEATURE TYPE ATTRIBUTES
 --------------------------------
-COMMENT: <STRING>
-Company: <STRING>
-DATE: <DATETIME>
-MILEAGE: <STRING>
-OBJECTID: <INTEGER>
-OID_: <INTEGER>
-ROUTE_ID_1: <DOUBLE>
-Route_ID: <INTEGER>
-Shape_Leng: <DOUBLE>
-the_geom: <MULTILINESTRING>
+COMMENT: [STRING]
+Company: [STRING]
+DATE: [DATETIME]
+MILEAGE: [STRING]
+OBJECTID: [INTEGER]
+OID_: [INTEGER]
+ROUTE_ID_1: [DOUBLE]
+Route_ID: [INTEGER]
+Shape_Leng: [DOUBLE]
+the_geom: [MULTILINESTRING]
 					</code></pre>										
                 </section>
                 <section>
                     <p>pull</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit pull
+
+100%
+From http://localhost:8080/geoserver/geogit/geonode:geogit-repo
+   1ba275f..5f1613b     master -> refs/heads/master
+Features Added: 1 Removed: 0 Modified: 0
+</code></pre>
+                </section>
+                <section>
+                    <p>inspect log</p>
+					<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+$ geogit log
+
+Commit:  5f1613b20dc5e069f32004940671bb932a2872f0
+Author:  admin
+Date:    (31 minutes ago) 2013-06-08 11:26:00 -0600
+Subject: added 1 features via unversioned legacy client.
+
+ added san_andres_y_providencia_administrative0/fid--35fef413_13f24d27905_-7ffd
+
+Commit:  1ba275fa026ce30a80adb422abe97ded43dec495
+Author:  Jeffrey Johnson jjohnson@opengeo.org
+Date:    (21 hours ago) 2013-06-07 14:08:17 -0600
+Subject: added 5 features via unversioned legacy client.
+
+ added san_andres_y_providencia_administrative0/fid--cfd070e_13f2024e73f_-7a6b
+ added san_andres_y_providencia_administrative0/fid--cfd070e_13f2024e73f_-7a6a
+ added san_andres_y_providencia_administrative0/fid--cfd070e_13f2024e73f_-7a68
+ added san_andres_y_providencia_administrative0/fid--cfd070e_13f2024e73f_-7a67
+ added san_andres_y_providencia_administrative0/fid--cfd070e_13f2024e73f_-7a69
+                    </code></pre>
                 </section>
                 <section>
                     <p>push</p>
