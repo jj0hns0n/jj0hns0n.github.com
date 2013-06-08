@@ -499,13 +499,12 @@ way: LINESTRING (43.6597741 -23.3428405, 43.6597865 -23.3429049, 43.659688100000
                     <section>
                         <p>overpass api query</p>
 					        <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-$ cat filter.oql 
 (
- way 
-    (33.1568,-117.418,33.227,-117.297);
-  >;
+    node(-6.2224,106.82260,-6.1013,107.0053);
+    way(bn);
+    way._["building"="yes"];
+    >;
 );
-out meta;
 					        </code></pre>
                     </section>
                     <section>
