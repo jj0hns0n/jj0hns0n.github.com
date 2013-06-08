@@ -638,7 +638,7 @@ visible    true
 						Makes it easier to edit versioned OSM data in an external app (GIS) and update the repository data
 					</p>
 				</section>
-
+                <section>
 				<section>
 					<h2>Data mappings</h2>
 					<ul>
@@ -662,11 +662,37 @@ visible    true
 						</code></pre>					
 					</ul>				
 				</section>
-
+				<section>
+					<p>a more complete example</p>
+						<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+{
+    "rules": [
+        {
+            "name": "buildings",
+            "filter": {
+                "building": [
+                    "yes"
+                ]
+            },
+            "fields": {
+                "building:levels": "STRING",
+                "building:roof": "STRING",
+                "building:structure": "STRING",
+                "building:walls": "STRING",
+                "name": "STRING",
+                "amenity": "STRING",
+                "geom": "LINESTRING"
+            }
+        }
+    ]
+}
+						</code></pre>					
+				</section>
+                </section>
 
 
 				<section>
-					<h2>Data mappings. How to use them</h2>
+					<h2>Data mappings. Usage</h2>
 					<p>
 						Creating new trees in the repository with mapped OSM data
 					</p>
